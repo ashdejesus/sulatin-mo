@@ -65,10 +65,6 @@ export function Header() {
                 <div className="p-4">
                   <div className="flex justify-between items-center mb-6">
                     <Logo />
-                    <Button variant="ghost" size="icon" onClick={() => setIsMobileMenuOpen(false)}>
-                      <X className="h-5 w-5" />
-                      <span className="sr-only">Close Menu</span>
-                    </Button>
                   </div>
                   <nav className="flex flex-col space-y-4">
                     {links.map((link) => (
