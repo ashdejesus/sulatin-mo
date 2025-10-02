@@ -18,7 +18,6 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
-import { ThemeToggle } from "../theme-toggle";
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -106,7 +105,6 @@ export function Header() {
              <div className="w-24 h-8 bg-muted rounded-md animate-pulse md:w-8" />
            ) : user ? (
             <div className="flex items-center gap-2">
-              <ThemeToggle />
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button variant="ghost" className="relative h-8 w-8 rounded-full">
@@ -135,7 +133,6 @@ export function Header() {
             </div>
            ) : (
             <div className="flex items-center space-x-2">
-              <ThemeToggle />
               <Button asChild variant="ghost">
                 <Link href="/login">Login</Link>
               </Button>

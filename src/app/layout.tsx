@@ -2,7 +2,6 @@ import type {Metadata} from 'next';
 import './globals.css';
 import { Toaster } from "@/components/ui/toaster"
 import { FirebaseClientProvider } from '@/firebase/client-provider';
-import { ThemeProvider } from '@/components/theme-provider';
 
 export const metadata: Metadata = {
   title: 'Sulatin Mo',
@@ -22,17 +21,10 @@ export default function RootLayout({
         <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=PT+Sans:wght@400;700&family=Noto+Sans+Tagalog&display=swap" rel="stylesheet" />
       </head>
       <body className="font-body antialiased bg-background text-foreground">
-        <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-        >
           <FirebaseClientProvider>
             {children}
           </FirebaseClientProvider>
           <Toaster />
-        </ThemeProvider>
       </body>
     </html>
   );
