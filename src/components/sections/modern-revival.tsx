@@ -24,7 +24,7 @@ const revivalItems = [
     title: "Design and Fashion",
     description: "Baybayin is used in t-shirts, tattoos, signage, and logos, bringing the script into modern aesthetics.",
     imageId: "modern-revival-fashion",
-    link: "https://www.preview.ph/fashion/baybayin-tattoos-a849-20210419-lfrm",
+    link: "https://www.wearlegazy.com/",
     icon: <Shirt className="w-8 h-8 text-accent" />,
   },
   {
