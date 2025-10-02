@@ -27,12 +27,12 @@ export function Hero() {
           </p>
           <div className="mt-10 flex items-center justify-center gap-x-6">
             <Button asChild size="lg" className="bg-accent text-accent-foreground hover:bg-accent/90">
-              <Link href="#converter">
+              <Link href="/converter">
                 Start Translating
               </Link>
             </Button>
             <Button asChild variant="ghost" size="lg">
-              <Link href="#guide">
+              <Link href="/guide">
                 Explore Characters &rarr;
               </Link>
             </Button>
