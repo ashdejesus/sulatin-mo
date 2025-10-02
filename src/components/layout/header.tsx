@@ -12,6 +12,7 @@ const navLinks = [
   { href: "#guide", label: "Character Guide" },
   { href: "#history", label: "History" },
   { href: "#revival", label: "Modern Revival" },
+  { href: "#quiz", label: "Quiz" },
 ];
 
 export function Header() {
