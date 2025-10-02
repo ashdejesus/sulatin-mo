@@ -14,7 +14,7 @@ export async function History() {
   const historyImage = PlaceHolderImages.find(p => p.id === 'history-illustration');
 
   return (
-    <section id="history" className="w-full py-20 md:py-28 lg:py-32">
+    <section id="history" className="w-full py-20 md:py-28 lg:py-32 bg-secondary/50">
       <div className="container mx-auto px-4 md:px-6">
         <div className="mx-auto max-w-3xl text-center">
           <h2 className="text-3xl font-headline font-bold text-primary sm:text-4xl">The Story of Baybayin</h2>
