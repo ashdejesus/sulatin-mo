@@ -1,3 +1,16 @@
 {
-  "placeholderImages": []
+  "placeholderImages": [
+    {
+      "id": "hero-background",
+      "description": "A subtle, elegant pattern inspired by Filipino textiles, to be used as a background for the hero section.",
+      "imageUrl": "https://images.unsplash.com/photo-1702631779276-338ee5aed73a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8ZmlsaXBpbm8lMjBwYXR0ZXJufGVufDB8fHx8MTc1OTM4NTA0N3ww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "filipino pattern"
+    },
+    {
+      "id": "history-illustration",
+      "description": "An illustration depicting ancient Filipino script on a scroll or stone tablet.",
+      "imageUrl": "https://images.unsplash.com/photo-1758762679949-824afc4c99b2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8YW5jaWVudCUyMHNjcmlwdHxlbnwwfHx8fDE3NTkzODUwNDd8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "ancient script"
+    }
+  ]
 }
