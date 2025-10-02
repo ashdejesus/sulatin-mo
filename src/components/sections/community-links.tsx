@@ -1,8 +1,7 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Link from "next/link";
-import { ArrowUpRight, Instagram, Facebook, Twitter } from "lucide-react";
-import { FaTiktok } from "react-icons/fa";
+import { ArrowUpRight, Instagram, Facebook } from "lucide-react";
 
 const communityResources = [
   {
@@ -25,13 +24,6 @@ const communityResources = [
     description: "An active page promoting learning with updates on lectures and events.",
     link: "https://www.facebook.com/baybayinbuhayin/",
     icon: <Facebook className="w-8 h-8 text-accent" />,
-  },
-  {
-    platform: "TikTok",
-    name: "@padayon.co",
-    description: "Posts engaging Baybayin content and challenges on TikTok.",
-    link: "https://www.tiktok.com/@padayon.co",
-    icon: <FaTiktok className="w-8 h-8 text-accent" />,
   },
 ];
 
