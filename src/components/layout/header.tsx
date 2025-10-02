@@ -49,7 +49,7 @@ export function Header() {
 
   const loggedInNavLinks = [
     { href: "/converter", label: "Converter" },
-    { href: "/#saved", label: "Saved"},
+    { href: "/converter#saved", label: "Saved"},
     { href: "/guide", label: "Character Guide" },
     { href: "/#history", label: "History" },
     { href: "/#revival", label: "Modern Revival" },

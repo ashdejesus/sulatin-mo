@@ -14,6 +14,7 @@ import { addDocumentNonBlocking } from "@/firebase/non-blocking-updates";
 import { serverTimestamp } from "firebase/firestore";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
+import { SavedTranslations } from "@/components/sections/saved-translations";
 
 export default function ConverterPage() {
   const [tagalogText, setTagalogText] = useState("");
@@ -145,6 +146,7 @@ export default function ConverterPage() {
             </div>
           </div>
         </section>
+        <SavedTranslations />
       </main>
       <Footer />
     </div>
