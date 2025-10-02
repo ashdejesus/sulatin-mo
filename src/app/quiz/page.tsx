@@ -14,6 +14,8 @@ import { useUser, useFirestore } from '@/firebase';
 import { collection, serverTimestamp } from 'firebase/firestore';
 import { addDocumentNonBlocking } from '@/firebase/non-blocking-updates';
 import { ScoreHistory } from '@/components/sections/score-history';
+import { Label } from '@/components/ui/label';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 
 type QuizQuestion = {
   character: BaybayinCharacter;
@@ -21,7 +23,8 @@ type QuizQuestion = {
   correctAnswer: string;
 };
 
-const TOTAL_QUESTIONS = 10;
+type CharacterType = 'all' | 'vowels' | 'consonants';
+
 const MAX_ATTEMPTS = 2;
 
 export default function QuizPage() {
@@ -36,12 +39,38 @@ export default function QuizPage() {
   const { user } = useUser();
   const firestore = useFirestore();
 
+  // Quiz settings state
+  const [quizStarted, setQuizStarted] = useState(false);
+  const [numQuestions, setNumQuestions] = useState('10');
+  const [charType, setCharType] = useState<CharacterType>('all');
+
   const generateQuestions = useCallback(() => {
-    const shuffledCharacters = shuffle([...baybayinCharacters]);
-    const quizCharacters = shuffledCharacters.slice(0, TOTAL_QUESTIONS);
+    let sourceCharacters: BaybayinCharacter[];
+    if (charType === 'vowels') {
+      sourceCharacters = baybayinCharacters.filter(c => c.type === 'vowel');
+    } else if (charType === 'consonants') {
+      sourceCharacters = baybayinCharacters.filter(c => c.type === 'consonant');
+    } else {
+      sourceCharacters = [...baybayinCharacters];
+    }
+    
+    const questionCount = numQuestions === 'all' ? sourceCharacters.length : parseInt(numQuestions);
+
+    const shuffledCharacters = shuffle(sourceCharacters);
+    const quizCharacters = shuffledCharacters.slice(0, questionCount);
+
+    if (quizCharacters.length < 4 && quizCharacters.length > 0) {
+      // Not enough characters to generate 3 wrong options, so we add more from the source
+      const additionalCharsNeeded = 4 - quizCharacters.length;
+      const otherChars = baybayinCharacters.filter(bc => !quizCharacters.find(qc => qc.roman === bc.roman));
+      const shuffledOthers = shuffle(otherChars);
+      shuffledCharacters.push(...shuffledOthers.slice(0, additionalCharsNeeded));
+    }
+
 
     const newQuestions = quizCharacters.map((char) => {
       const correctAnswer = char.roman;
+      // Get wrong answers from the full shuffled list to ensure enough options
       const wrongAnswers = shuffledCharacters
         .filter((c) => c.roman !== correctAnswer)
         .slice(0, 3)
@@ -57,14 +86,22 @@ export default function QuizPage() {
     });
 
     setQuestions(newQuestions);
-  }, []);
+  }, [charType, numQuestions]);
 
-  useEffect(() => {
+  const startQuiz = () => {
     generateQuestions();
-  }, [generateQuestions]);
+    setQuizStarted(true);
+    setQuizOver(false);
+    setCurrentQuestionIndex(0);
+    setScore(0);
+    setSelectedAnswer(null);
+    setIsCorrect(null);
+    setShowFeedback(false);
+    setAttempts(0);
+  }
 
   const saveScore = useCallback(() => {
-    if (user && firestore) {
+    if (user && firestore && questions.length > 0) {
       const resultsColRef = collection(firestore, 'users', user.uid, 'quizResults');
       addDocumentNonBlocking(resultsColRef, {
         score,
@@ -80,14 +117,9 @@ export default function QuizPage() {
   }, [saveScore]);
 
   const restartQuiz = () => {
-    setScore(0);
-    setCurrentQuestionIndex(0);
-    setSelectedAnswer(null);
-    setIsCorrect(null);
-    setShowFeedback(false);
+    setQuizStarted(false);
     setQuizOver(false);
-    setAttempts(0);
-    generateQuestions();
+    setQuestions([]);
   };
   
   const handleAnswerClick = (answer: string) => {
@@ -124,12 +156,50 @@ export default function QuizPage() {
     }
   };
 
-  if (questions.length === 0) {
-    return null; // Or a loading state
-  }
+  const QuizSetup = () => (
+    <div className="space-y-8">
+      <div className="space-y-4">
+        <Label className="text-lg font-semibold">Number of Questions</Label>
+        <RadioGroup value={numQuestions} onValueChange={setNumQuestions} className="flex space-x-4">
+          <div className="flex items-center space-x-2">
+            <RadioGroupItem value="10" id="q10" />
+            <Label htmlFor="q10">10</Label>
+          </div>
+          <div className="flex items-center space-x-2">
+            <RadioGroupItem value="15" id="q15" />
+            <Label htmlFor="q15">15</Label>
+          </div>
+           <div className="flex items-center space-x-2">
+            <RadioGroupItem value="all" id="qAll" />
+            <Label htmlFor="qAll">All ({charType === 'vowels' ? 3 : charType === 'consonants' ? 14 : baybayinCharacters.length})</Label>
+          </div>
+        </RadioGroup>
+      </div>
+
+      <div className="space-y-4">
+        <Label className="text-lg font-semibold">Character Types</Label>
+        <RadioGroup value={charType} onValueChange={(value) => setCharType(value as CharacterType)} className="flex space-x-4">
+          <div className="flex items-center space-x-2">
+            <RadioGroupItem value="all" id="cAll" />
+            <Label htmlFor="cAll">All</Label>
+          </div>
+          <div className="flex items-center space-x-2">
+            <RadioGroupItem value="vowels" id="cVowels" />
+            <Label htmlFor="cVowels">Vowels</Label>
+          </div>
+          <div className="flex items-center space-x-2">
+            <RadioGroupItem value="consonants" id="cConsonants" />
+            <Label htmlFor="cConsonants">Consonants</Label>
+          </div>
+        </RadioGroup>
+      </div>
+
+      <Button onClick={startQuiz} size="lg" className="w-full">Start Quiz</Button>
+    </div>
+  );
 
   const currentQuestion = questions[currentQuestionIndex];
-  const progress = ((currentQuestionIndex) / questions.length) * 100;
+  const progress = questions.length > 0 ? ((currentQuestionIndex) / questions.length) * 100 : 0;
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -141,12 +211,18 @@ export default function QuizPage() {
               <Card className="shadow-lg border-border/60">
                 <CardHeader className="text-center">
                   <CardTitle className="text-3xl font-headline font-bold text-primary sm:text-4xl">Baybayin Quiz</CardTitle>
-                  <CardDescription className="text-muted-foreground">
-                    You have {MAX_ATTEMPTS} attempts per question. You get a point only on the first try!
-                  </CardDescription>
+                   {!quizStarted || quizOver ? (
+                     <CardDescription className="text-muted-foreground">Customize your quiz and test your knowledge!</CardDescription>
+                   ) : (
+                     <CardDescription className="text-muted-foreground">
+                       You have {MAX_ATTEMPTS} attempts per question. You get a point only on the first try!
+                     </CardDescription>
+                   )}
                 </CardHeader>
                 <CardContent>
-                  {quizOver ? (
+                  {!quizStarted ? (
+                    <QuizSetup />
+                  ) : quizOver ? (
                     <div className="text-center space-y-6">
                       <h3 className="text-2xl font-semibold">Quiz Complete!</h3>
                       <p className="text-lg text-muted-foreground">
@@ -158,6 +234,7 @@ export default function QuizPage() {
                       </Button>
                     </div>
                   ) : (
+                    currentQuestion ? (
                     <div className="space-y-8">
                       <div>
                         <Progress value={progress} className="w-full mb-2" />
@@ -206,6 +283,9 @@ export default function QuizPage() {
                         </div>
                       )}
                     </div>
+                    ) : (
+                      <div className="text-center text-muted-foreground">Loading questions...</div>
+                    )
                   )}
                 </CardContent>
               </Card>
@@ -218,3 +298,5 @@ export default function QuizPage() {
     </div>
   );
 }
+
+    
