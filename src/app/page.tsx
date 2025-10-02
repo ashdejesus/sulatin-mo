@@ -4,6 +4,7 @@ import { Footer } from '@/components/layout/footer';
 import { Hero } from '@/components/sections/hero';
 import { History } from '@/components/sections/history';
 import { ModernRevival } from '@/components/sections/modern-revival';
+import { CommunityLinks } from '@/components/sections/community-links';
 
 export default function Home() {
   return (
@@ -13,6 +14,7 @@ export default function Home() {
         <Hero />
         <History />
         <ModernRevival />
+        <CommunityLinks />
       </main>
       <Footer />
     </div>
