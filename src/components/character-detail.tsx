@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import {
   DialogContent,
   DialogHeader,
@@ -8,38 +8,15 @@ import {
   DialogDescription,
 } from "@/components/ui/dialog";
 import { type BaybayinCharacter } from "@/lib/baybayin-data";
-import { getAudioForText } from "@/app/actions";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
-import { Volume2, Eraser, Pen } from "lucide-react";
+import { Eraser, Pen } from "lucide-react";
 import { HandwritingCanvas, type HandwritingCanvasHandle } from "./handwriting-canvas";
 
 export function CharacterDetail({ character }: { character: BaybayinCharacter | null }) {
-  const [audioSrc, setAudioSrc] = useState<string | null>(null);
-  const [isPlaying, setIsPlaying] = useState(false);
   const canvasRef = useRef<HandwritingCanvasHandle>(null);
 
   if (!character) return null;
-  
-  const handlePlayAudio = async () => {
-    if (audioSrc) {
-      const audio = new Audio(audioSrc);
-      setIsPlaying(true);
-      audio.onended = () => setIsPlaying(false);
-      audio.play();
-      return;
-    }
-
-    setIsPlaying(true);
-    const newAudioSrc = await getAudioForText(character.name);
-    setIsPlaying(false);
-
-    if (newAudioSrc) {
-      setAudioSrc(newAudioSrc);
-      const audio = new Audio(newAudioSrc);
-      audio.play();
-    }
-  };
   
   const handleClearCanvas = () => {
     canvasRef.current?.clearCanvas();
@@ -51,10 +28,6 @@ export function CharacterDetail({ character }: { character: BaybayinCharacter | 
         <DialogTitle className="flex items-center gap-4">
           <span className="font-baybayin text-6xl text-primary">{character.char}</span>
           <span className="text-4xl font-headline">{character.name}</span>
-           <Button variant="ghost" size="icon" onClick={handlePlayAudio} disabled={isPlaying}>
-            <Volume2 className="h-6 w-6" />
-            <span className="sr-only">Play pronunciation</span>
-          </Button>
         </DialogTitle>
         <DialogDescription>
           Romanization: {character.roman} | Type: {character.type}

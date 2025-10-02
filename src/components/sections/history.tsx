@@ -1,26 +1,17 @@
-import { summarizeBaybayinHistory } from "@/ai/flows/summarize-baybayin-history";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
 import { Card, CardContent } from "@/components/ui/card";
 import Image from "next/image";
-import { AlertCircle } from "lucide-react";
-import { Alert, AlertTitle, AlertDescription } from "../ui/alert";
 
-async function getHistorySummary() {
-  if (!process.env.GEMINI_API_KEY || process.env.GEMINI_API_KEY === 'your-api-key-here') {
-    return { summary: null, error: "AI features are disabled. Please configure your Gemini API key in the .env file to see the history of Baybayin." };
-  }
-  try {
-    const { summary } = await summarizeBaybayinHistory({ query: 'Summarize the history of Baybayin, its origins, use during the pre-colonial and Spanish eras, its decline, and modern revival. Format the output as a single string with paragraphs separated by \\n\\n.' });
-    return { summary, error: null };
-  } catch (e) {
-    console.error(e);
-    return { summary: null, error: "Could not load the history summary. This might be due to an invalid API key or a network issue." };
-  }
-}
+const historySummary = `Baybayin, which means "to spell" in Tagalog, is an ancient script used in the Philippines before the arrival of the Spanish. It's a member of the Brahmic family of scripts and was used to write Tagalog and other Philippine languages. Its origins can be traced back to the Kawi script of Java, Bali, and Sumatra.
+
+During the pre-colonial era, Baybayin was used for personal correspondence, poetry, and public announcements. It was written on bamboo, bark, and leaves. When the Spanish arrived in the 16th century, they were surprised to find a high literacy rate among the Filipinos. For a time, they even used Baybayin for religious instruction.
+
+However, as the Latin alphabet was introduced and became more widespread through the Spanish education system, the use of Baybayin declined. By the 18th century, it had almost completely disappeared from common use, preserved only by a few communities and antiquarians.
+
+In recent years, there has been a significant resurgence of interest in Baybayin. It has become a symbol of national pride and cultural identity. Many young Filipinos are learning the script, and it is seeing a revival in art, design, and even tattoos. This modern revival is a testament to the enduring spirit of Filipino heritage.`;
 
 export async function History() {
   const historyImage = PlaceHolderImages.find(p => p.id === 'history-illustration');
-  const { summary, error } = await getHistorySummary();
 
   return (
     <section id="history" className="w-full py-20 md:py-28 lg:py-32">
@@ -47,21 +38,11 @@ export async function History() {
               )}
               <div className="md:col-span-3">
                 <CardContent className="p-8 md:p-10">
-                  {summary ? (
                     <div className="prose prose-lg max-w-none text-foreground/90 prose-headings:font-headline prose-headings:text-primary">
-                      {summary.split('\n\n').map((paragraph, index) => (
+                      {historySummary.split('\n\n').map((paragraph, index) => (
                         <p key={index} className="mb-4 last:mb-0">{paragraph}</p>
                       ))}
                     </div>
-                  ) : (
-                    <Alert variant="destructive">
-                      <AlertCircle className="h-4 w-4" />
-                      <AlertTitle>Content not available</AlertTitle>
-                      <AlertDescription>
-                        {error}
-                      </AlertDescription>
-                    </Alert>
-                  )}
                 </CardContent>
               </div>
             </div>
