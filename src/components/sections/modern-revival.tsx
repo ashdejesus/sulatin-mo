@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowUpRight, Smartphone, GraduationCap, Shirt, ScrollText, Users } from "lucide-react";
+import { ArrowUpRight, Smartphone, GraduationCap, Shirt, ScrollText } from "lucide-react";
 
 const revivalItems = [
   {
@@ -33,13 +33,6 @@ const revivalItems = [
     imageId: "modern-revival-government",
     link: "https://legacy.senate.gov.ph/press_release/2018/0423_prib1.asp",
     icon: <ScrollText className="w-8 h-8 text-accent" />,
-  },
-  {
-    title: "Social Media",
-    description: "Campaigns raise awareness and teach how to read and write Baybayin, creating a vibrant online community.",
-    imageId: "modern-revival-social",
-    link: "https://www.facebook.com/groups/baybayin/",
-    icon: <Users className="w-8 h-8 text-accent" />,
   },
 ];
 
