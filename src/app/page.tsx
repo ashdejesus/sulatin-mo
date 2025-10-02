@@ -4,6 +4,7 @@ import { Hero } from '@/components/sections/hero';
 import { Converter } from '@/components/sections/converter';
 import { CharacterGuide } from '@/components/sections/character-guide';
 import { History } from '@/components/sections/history';
+import { ModernRevival } from '@/components/sections/modern-revival';
 
 export default function Home() {
   return (
@@ -14,6 +15,7 @@ export default function Home() {
         <Converter />
         <CharacterGuide />
         <History />
+        <ModernRevival />
       </main>
       <Footer />
     </div>
