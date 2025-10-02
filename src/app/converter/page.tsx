@@ -146,7 +146,7 @@ export default function ConverterPage() {
             </div>
           </div>
         </section>
-        <SavedTranslations />
+        {user && <SavedTranslations />}
       </main>
       <Footer />
     </div>
