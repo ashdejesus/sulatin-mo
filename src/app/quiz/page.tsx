@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useEffect, useCallback } from 'react';
@@ -17,6 +18,7 @@ type QuizQuestion = {
 };
 
 const TOTAL_QUESTIONS = 10;
+const MAX_ATTEMPTS = 2;
 
 export default function QuizPage() {
   const [questions, setQuestions] = useState<QuizQuestion[]>([]);
@@ -26,6 +28,7 @@ export default function QuizPage() {
   const [score, setScore] = useState(0);
   const [quizOver, setQuizOver] = useState(false);
   const [showFeedback, setShowFeedback] = useState(false);
+  const [attempts, setAttempts] = useState(0);
 
   const generateQuestions = useCallback(() => {
     const shuffledCharacters = shuffle([...baybayinCharacters]);
@@ -61,18 +64,29 @@ export default function QuizPage() {
     setIsCorrect(null);
     setShowFeedback(false);
     setQuizOver(false);
+    setAttempts(0);
     generateQuestions();
   };
   
   const handleAnswerClick = (answer: string) => {
     if (showFeedback) return;
 
-    const correct = answer === questions[currentQuestionIndex].correctAnswer;
+    const newAttempts = attempts + 1;
+    setAttempts(newAttempts);
     setSelectedAnswer(answer);
+    
+    const correct = answer === questions[currentQuestionIndex].correctAnswer;
     setIsCorrect(correct);
-    setShowFeedback(true);
+
     if (correct) {
-      setScore(score + 1);
+      if (newAttempts === 1) { // Only score if correct on the first try
+        setScore(score + 1);
+      }
+      setShowFeedback(true);
+    } else {
+      if (newAttempts >= MAX_ATTEMPTS) {
+        setShowFeedback(true);
+      }
     }
   };
 
@@ -82,6 +96,7 @@ export default function QuizPage() {
       setSelectedAnswer(null);
       setIsCorrect(null);
       setShowFeedback(false);
+      setAttempts(0);
     } else {
       setQuizOver(true);
     }
@@ -105,7 +120,7 @@ export default function QuizPage() {
                 <CardHeader className="text-center">
                   <CardTitle className="text-3xl font-headline font-bold text-primary sm:text-4xl">Baybayin Quiz</CardTitle>
                   <CardDescription className="text-muted-foreground">
-                    Test your knowledge of the Baybayin script!
+                    You have {MAX_ATTEMPTS} attempts per question. You get a point only on the first try!
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -124,27 +139,33 @@ export default function QuizPage() {
                     <div className="space-y-8">
                       <div>
                         <Progress value={progress} className="w-full mb-2" />
-                        <p className="text-sm text-muted-foreground text-center">
-                          Question {currentQuestionIndex + 1} of {questions.length}
-                        </p>
+                        <div className="flex justify-between text-sm text-muted-foreground text-center">
+                            <p>Question {currentQuestionIndex + 1} of {questions.length}</p>
+                            <p>Score: {score}</p>
+                        </div>
                       </div>
                       <div className="flex flex-col items-center space-y-4">
                         <p className="text-lg font-semibold">What is the Roman equivalent of this character?</p>
                         <div className="font-baybayin text-8xl text-primary p-8 bg-muted/50 rounded-lg">
                           {currentQuestion.character.char}
                         </div>
+                         {attempts > 0 && !showFeedback && isCorrect === false && (
+                            <p className="text-sm text-destructive">Incorrect. Try again! {MAX_ATTEMPTS - attempts} attempt(s) left.</p>
+                         )}
                       </div>
                       <div className="grid grid-cols-2 gap-4">
                         {currentQuestion.options.map((option) => (
                           <Button
                             key={option}
                             onClick={() => handleAnswerClick(option)}
-                            variant={showFeedback && option === selectedAnswer ? (isCorrect ? 'default' : 'destructive') : 'outline'}
+                            variant={showFeedback && option === currentQuestion.correctAnswer ? 'default' : (option === selectedAnswer && isCorrect === false) ? 'destructive' : 'outline'}
                             size="lg"
                             className={`h-16 text-lg justify-center transition-all duration-300 ${
-                              showFeedback && option !== selectedAnswer ? 'opacity-50' : ''
+                              showFeedback && option !== currentQuestion.correctAnswer ? 'opacity-50' : ''
+                            } ${
+                                selectedAnswer === option && isCorrect === false && !showFeedback ? 'border-destructive' : ''
                             }`}
-                            disabled={showFeedback}
+                            disabled={showFeedback || (selectedAnswer === option && isCorrect === false)}
                           >
                             {option}
                           </Button>
@@ -155,7 +176,7 @@ export default function QuizPage() {
                         <div className="flex flex-col items-center justify-center space-y-4 pt-4">
                           <div className={`flex items-center text-lg font-semibold ${isCorrect ? 'text-green-600' : 'text-red-600'}`}>
                             {isCorrect ? <CheckCircle className="mr-2" /> : <XCircle className="mr-2" />}
-                            {isCorrect ? "Correct!" : `Not quite. The answer is ${currentQuestion.correctAnswer}.`}
+                            {isCorrect ? "Correct!" : `The correct answer is ${currentQuestion.correctAnswer}.`}
                           </div>
                           <Button onClick={handleNextQuestion} className="bg-accent text-accent-foreground hover:bg-accent/90">
                             {currentQuestionIndex < questions.length - 1 ? "Next Question" : "Finish Quiz"}
