@@ -10,6 +10,10 @@ import { shuffle } from '@/lib/utils';
 import { CheckCircle, XCircle, RefreshCw } from 'lucide-react';
 import { Header } from '@/components/layout/header';
 import { Footer } from '@/components/layout/footer';
+import { useUser, useFirestore } from '@/firebase';
+import { collection, serverTimestamp } from 'firebase/firestore';
+import { addDocumentNonBlocking } from '@/firebase/non-blocking-updates';
+import { ScoreHistory } from '@/components/sections/score-history';
 
 type QuizQuestion = {
   character: BaybayinCharacter;
@@ -29,6 +33,8 @@ export default function QuizPage() {
   const [quizOver, setQuizOver] = useState(false);
   const [showFeedback, setShowFeedback] = useState(false);
   const [attempts, setAttempts] = useState(0);
+  const { user } = useUser();
+  const firestore = useFirestore();
 
   const generateQuestions = useCallback(() => {
     const shuffledCharacters = shuffle([...baybayinCharacters]);
@@ -56,6 +62,22 @@ export default function QuizPage() {
   useEffect(() => {
     generateQuestions();
   }, [generateQuestions]);
+
+  const saveScore = useCallback(() => {
+    if (user && firestore) {
+      const resultsColRef = collection(firestore, 'users', user.uid, 'quizResults');
+      addDocumentNonBlocking(resultsColRef, {
+        score,
+        totalQuestions: questions.length,
+        createdAt: serverTimestamp(),
+      });
+    }
+  }, [user, firestore, score, questions.length]);
+
+  const handleFinishQuiz = useCallback(() => {
+    setQuizOver(true);
+    saveScore();
+  }, [saveScore]);
 
   const restartQuiz = () => {
     setScore(0);
@@ -98,7 +120,7 @@ export default function QuizPage() {
       setShowFeedback(false);
       setAttempts(0);
     } else {
-      setQuizOver(true);
+      handleFinishQuiz();
     }
   };
 
@@ -190,6 +212,7 @@ export default function QuizPage() {
             </div>
           </div>
         </section>
+        {user && <ScoreHistory />}
       </main>
       <Footer />
     </div>

@@ -63,6 +63,27 @@
         }
       },
       "required": ["tagalog", "baybayin", "createdAt"]
+    },
+    "QuizResult": {
+      "title": "Quiz Result",
+      "type": "object",
+      "description": "Represents a result from a completed Baybayin quiz.",
+      "properties": {
+        "score": {
+          "type": "number",
+          "description": "The number of questions answered correctly."
+        },
+        "totalQuestions": {
+          "type": "number",
+          "description": "The total number of questions in the quiz."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp when the quiz was completed."
+        }
+      },
+      "required": ["score", "totalQuestions", "createdAt"]
     }
   },
   "auth": {
@@ -106,6 +127,26 @@
             {
               "name": "translationId",
               "description": "The unique ID for the saved translation document."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/users/{uid}/quizResults/{quizResultId}",
+        "definition": {
+          "entityName": "QuizResult",
+          "schema": {
+            "$ref": "#/backend/entities/QuizResult"
+          },
+          "description": "A subcollection under each user to store their quiz results.",
+          "params": [
+            {
+              "name": "uid",
+              "description": "The Firebase UID of the user who owns this collection."
+            },
+            {
+              "name": "quizResultId",
+              "description": "The unique ID for the quiz result document."
             }
           ]
         }
