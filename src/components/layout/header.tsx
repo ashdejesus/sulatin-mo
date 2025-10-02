@@ -46,6 +46,17 @@ export function Header() {
     return names[0].substring(0, 2);
   }
 
+  const loggedInNavLinks = [
+    { href: "#converter", label: "Converter" },
+    { href: "#saved", label: "Saved"},
+    { href: "#guide", label: "Character Guide" },
+    { href: "#history", label: "History" },
+    { href: "#revival", label: "Modern Revival" },
+    { href: "#quiz", label: "Quiz" },
+  ];
+
+  const links = user ? loggedInNavLinks : navLinks;
+
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-16 items-center">
@@ -56,7 +67,7 @@ export function Header() {
         </div>
 
         <nav className="hidden md:flex md:items-center md:space-x-6 text-sm font-medium">
-          {navLinks.map((link) => (
+          {links.map((link) => (
             <Link
               key={link.href}
               href={link.href}
@@ -125,7 +136,7 @@ export function Header() {
                     </Button>
                   </div>
                   <nav className="flex flex-col space-y-4">
-                    {navLinks.map((link) => (
+                    {links.map((link) => (
                       <Link
                         key={link.href}
                         href={link.href}

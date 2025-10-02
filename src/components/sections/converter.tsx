@@ -3,15 +3,21 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { tagalogToBaybayin } from "@/lib/transliterate";
-import { Copy, Share2 } from "lucide-react";
+import { Copy, Share2, Star } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { useUser, useFirestore } from "@/firebase";
+import { collection } from "firebase/firestore";
+import { addDocumentNonBlocking } from "@/firebase/non-blocking-updates";
+import { serverTimestamp } from "firebase/firestore";
 
 export function Converter() {
   const [tagalogText, setTagalogText] = useState("");
   const [baybayinText, setBaybayinText] = useState("");
   const { toast } = useToast();
+  const { user } = useUser();
+  const firestore = useFirestore();
 
   const handleConvert = () => {
     const result = tagalogToBaybayin(tagalogText);
@@ -52,6 +58,28 @@ export function Converter() {
     }
   };
 
+  const handleSaveTranslation = () => {
+    if (!user || !firestore || !tagalogText || !baybayinText) {
+      toast({
+        variant: "destructive",
+        title: "Could not save",
+        description: "You must be logged in to save a translation.",
+      });
+      return;
+    }
+    const translationsColRef = collection(firestore, 'users', user.uid, 'translations');
+    
+    addDocumentNonBlocking(translationsColRef, {
+      tagalog: tagalogText,
+      baybayin: baybayinText,
+      createdAt: serverTimestamp(),
+    });
+
+    toast({
+      title: "Translation Saved",
+      description: "Your translation has been saved to your collection.",
+    });
+  };
 
   return (
     <section id="converter" className="w-full py-20 md:py-28 lg:py-32">
@@ -84,6 +112,11 @@ export function Converter() {
                  <div className="flex justify-between items-center">
                     <label className="font-semibold text-primary">Baybayin Output</label>
                     <div className="flex items-center gap-2">
+                      {user && baybayinText && (
+                        <Button variant="ghost" size="icon" onClick={handleSaveTranslation} aria-label="Save translation">
+                          <Star className="h-4 w-4" />
+                        </Button>
+                      )}
                       <Button variant="ghost" size="icon" onClick={handleCopyToClipboard} disabled={!baybayinText} aria-label="Copy to clipboard">
                         <Copy className="h-4 w-4" />
                       </Button>

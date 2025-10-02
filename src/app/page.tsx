@@ -6,6 +6,7 @@ import { CharacterGuide } from '@/components/sections/character-guide';
 import { History } from '@/components/sections/history';
 import { ModernRevival } from '@/components/sections/modern-revival';
 import { Quiz } from '@/components/sections/quiz';
+import { SavedTranslations } from '@/components/sections/saved-translations';
 
 export default function Home() {
   return (
@@ -14,6 +15,7 @@ export default function Home() {
       <main className="flex-grow">
         <Hero />
         <Converter />
+        <SavedTranslations />
         <CharacterGuide />
         <History />
         <ModernRevival />

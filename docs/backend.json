@@ -42,6 +42,27 @@
         "creationTimestamp",
         "lastLoginTimestamp"
       ]
+    },
+    "SavedTranslation": {
+      "title": "Saved Translation",
+      "type": "object",
+      "description": "Represents a single Baybayin translation saved by a user.",
+      "properties": {
+        "tagalog": {
+          "type": "string",
+          "description": "The original Tagalog text."
+        },
+        "baybayin": {
+          "type": "string",
+          "description": "The converted Baybayin script."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Timestamp when the translation was saved."
+        }
+      },
+      "required": ["tagalog", "baybayin", "createdAt"]
     }
   },
   "auth": {
@@ -67,8 +88,28 @@
             }
           ]
         }
+      },
+      {
+        "path": "/users/{uid}/translations/{translationId}",
+        "definition": {
+          "entityName": "SavedTranslation",
+          "schema": {
+            "$ref": "#/backend/entities/SavedTranslation"
+          },
+          "description": "A subcollection under each user to store their saved translations. This ensures that a user can only access their own saved items.",
+          "params": [
+            {
+              "name": "uid",
+              "description": "The Firebase UID of the user who owns this collection."
+            },
+            {
+              "name": "translationId",
+              "description": "The unique ID for the saved translation document."
+            }
+          ]
+        }
       }
     ],
-    "reasoning": "This design prioritizes simplicity and security for user account management. By storing each user's data under a path directly derived from their Firebase UID (`/users/{uid}`), we achieve path-based ownership, which is the most secure and efficient method. \n\nAuthorization Independence: There is no dependency on parent document data, as each user document stands alone and authorization is solely based on the `request.auth.uid` matching the document ID. This avoids `get()` calls in security rules and enables atomic operations.\n\nQAPs: The structure supports secure `list` operations because access to user data is strictly controlled by the user's UID.  Listing operations on `/users` are prevented at the root level and writes are limited to authenticated users, thereby preventing unauthorized data access."
+    "reasoning": "This design prioritizes simplicity and security for user account management. By storing each user's data under a path directly derived from their Firebase UID (`/users/{uid}`), we achieve path-based ownership, which is the most secure and efficient method. The `translations` subcollection inherits this ownership, ensuring data privacy. \n\nAuthorization Independence: There is no dependency on parent document data, as each user document stands alone and authorization is solely based on the `request.auth.uid` matching the document ID. This avoids `get()` calls in security rules and enables atomic operations.\n\nQAPs: The structure supports secure `list` operations because access to user data is strictly controlled by the user's UID.  Listing operations on `/users` are prevented at the root level and writes are limited to authenticated users, thereby preventing unauthorized data access."
   }
 }
