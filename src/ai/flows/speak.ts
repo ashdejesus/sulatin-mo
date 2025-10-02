@@ -35,7 +35,7 @@ async function toWav(
   });
 }
 
-export const speakFlow = ai.defineFlow(
+const speakFlow = ai.defineFlow(
   {
     name: 'speakFlow',
     inputSchema: z.string(),

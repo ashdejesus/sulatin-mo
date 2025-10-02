@@ -28,12 +28,6 @@ export type SummarizeBaybayinHistoryOutput = z.infer<
   typeof SummarizeBaybayinHistoryOutputSchema
 >;
 
-export async function summarizeBaybayinHistory(
-  input: SummarizeBaybayinHistoryInput
-): Promise<SummarizeBaybayinHistoryOutput> {
-  return summarizeBaybayinHistoryFlow(input);
-}
-
 const prompt = ai.definePrompt({
   name: 'summarizeBaybayinHistoryPrompt',
   input: {schema: SummarizeBaybayinHistoryInputSchema},
@@ -52,3 +46,9 @@ const summarizeBaybayinHistoryFlow = ai.defineFlow(
     return output!;
   }
 );
+
+export async function summarizeBaybayinHistory(
+  input: SummarizeBaybayinHistoryInput
+): Promise<SummarizeBaybayinHistoryOutput> {
+  return summarizeBaybayinHistoryFlow(input);
+}
