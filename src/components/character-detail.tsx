@@ -1,8 +1,8 @@
+
 "use client";
 
 import { useRef } from "react";
 import {
-  DialogContent,
   DialogHeader,
   DialogTitle,
   DialogDescription,
@@ -23,7 +23,7 @@ export function CharacterDetail({ character }: { character: BaybayinCharacter | 
   };
 
   return (
-    <DialogContent className="max-w-xl">
+    <>
       <DialogHeader>
         <DialogTitle className="flex items-center gap-4">
           <span className="font-baybayin text-6xl text-primary">{character.char}</span>
@@ -56,6 +56,6 @@ export function CharacterDetail({ character }: { character: BaybayinCharacter | 
           </CardContent>
         </Card>
       </div>
-    </DialogContent>
+    </>
   );
 }

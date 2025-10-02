@@ -3,9 +3,9 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Menu, X, LogOut } from "lucide-react";
+import { Menu, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetTrigger, SheetTitle, SheetDescription } from "@/components/ui/sheet";
 import { Logo } from "@/components/ui/logo";
 import { useUser, useAuth } from "@/firebase";
 import { signOut } from "firebase/auth";
@@ -62,6 +62,8 @@ export function Header() {
                 </Button>
               </SheetTrigger>
               <SheetContent side="left">
+                <SheetTitle className="sr-only">Navigation Menu</SheetTitle>
+                <SheetDescription className="sr-only">Main navigation links for the site.</SheetDescription>
                 <div className="p-4">
                   <div className="flex justify-between items-center mb-6">
                     <Logo />

@@ -4,7 +4,7 @@
 import { useState } from "react";
 import { baybayinCharacters, type BaybayinCharacter } from "@/lib/baybayin-data";
 import { CharacterCard } from "@/components/character-card";
-import { Dialog } from "@/components/ui/dialog";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { CharacterDetail } from "@/components/character-detail";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
@@ -55,7 +55,9 @@ export default function GuidePage() {
             </div>
           </div>
           <Dialog open={isDetailOpen} onOpenChange={setIsDetailOpen}>
-            <CharacterDetail character={selectedCharacter} />
+            <DialogContent className="max-w-xl">
+              <CharacterDetail character={selectedCharacter} />
+            </DialogContent>
           </Dialog>
         </section>
       </main>
