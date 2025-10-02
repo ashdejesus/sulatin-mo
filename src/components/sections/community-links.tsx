@@ -27,26 +27,12 @@ const communityResources = [
     icon: <Facebook className="w-8 h-8 text-accent" />,
   },
   {
-    platform: "Facebook",
-    name: "Kristian Kabuay",
-    description: "A well-known Baybayin artist and advocate with a significant presence.",
-    link: "https://www.facebook.com/kabuay/",
-    icon: <Facebook className="w-8 h-8 text-accent" />,
-  },
-  {
     platform: "TikTok",
     name: "@padayon.co",
     description: "Posts engaging Baybayin content and challenges on TikTok.",
     link: "https://www.tiktok.com/@padayon.co",
     icon: <FaTiktok className="w-8 h-8 text-accent" />,
   },
-  {
-      platform: "Blog / Artist",
-      name: "Arthestic By Jide",
-      description: "Shares Baybayin art created using modern digital tools.",
-      link: "https://www.instagram.com/arthesticbyjide/",
-      icon: <Instagram className="w-8 h-8 text-accent" />,
-  }
 ];
 
 export function CommunityLinks() {
