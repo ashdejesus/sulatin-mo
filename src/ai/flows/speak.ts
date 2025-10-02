@@ -42,10 +42,6 @@ export const speakFlow = ai.defineFlow(
     outputSchema: z.string(),
   },
   async (text) => {
-    if (!process.env.GEMINI_API_KEY || process.env.GEMINI_API_KEY === 'your-api-key-here') {
-      throw new Error('API key not configured.');
-    }
-
     const {media} = await ai.generate({
       model: googleAI.model('gemini-2.5-flash-preview-tts'),
       config: {
