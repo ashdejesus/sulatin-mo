@@ -10,7 +10,7 @@ const revivalItems = [
     title: "Digital Technologies",
     description: "Mobile apps, websites, and typefaces for Baybayin fonts make learning accessible to everyone.",
     imageId: "modern-revival-digital",
-    link: "https://www.gmanetwork.com/news/scitech/technology/827813/this-free-app-can-translate-baybayin-in-real-time-through-your-phone-camera/story/",
+    link: "https://www.wearlegazy.com/",
     icon: <Smartphone className="w-8 h-8 text-accent" />,
   },
   {
