@@ -19,11 +19,11 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 
 const navLinks = [
-  { href: "#converter", label: "Converter" },
-  { href: "#guide", label: "Character Guide" },
-  { href: "#history", label: "History" },
-  { href: "#revival", label: "Modern Revival" },
-  { href: "#quiz", label: "Quiz" },
+  { href: "/#converter", label: "Converter" },
+  { href: "/#guide", label: "Character Guide" },
+  { href: "/#history", label: "History" },
+  { href: "/#revival", label: "Modern Revival" },
+  { href: "/quiz", label: "Quiz" },
 ];
 
 export function Header() {
@@ -47,12 +47,12 @@ export function Header() {
   }
 
   const loggedInNavLinks = [
-    { href: "#converter", label: "Converter" },
-    { href: "#saved", label: "Saved"},
-    { href: "#guide", label: "Character Guide" },
-    { href: "#history", label: "History" },
-    { href: "#revival", label: "Modern Revival" },
-    { href: "#quiz", label: "Quiz" },
+    { href: "/#converter", label: "Converter" },
+    { href: "/#saved", label: "Saved"},
+    { href: "/#guide", label: "Character Guide" },
+    { href: "/#history", label: "History" },
+    { href: "/#revival", label: "Modern Revival" },
+    { href: "/quiz", label: "Quiz" },
   ];
 
   const links = user ? loggedInNavLinks : navLinks;

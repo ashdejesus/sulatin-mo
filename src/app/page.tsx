@@ -5,7 +5,6 @@ import { Converter } from '@/components/sections/converter';
 import { CharacterGuide } from '@/components/sections/character-guide';
 import { History } from '@/components/sections/history';
 import { ModernRevival } from '@/components/sections/modern-revival';
-import { Quiz } from '@/components/sections/quiz';
 import { SavedTranslations } from '@/components/sections/saved-translations';
 
 export default function Home() {
@@ -19,7 +18,6 @@ export default function Home() {
         <CharacterGuide />
         <History />
         <ModernRevival />
-        <Quiz />
       </main>
       <Footer />
     </div>
