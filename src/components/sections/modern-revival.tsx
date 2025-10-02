@@ -1,3 +1,4 @@
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
 import Image from "next/image";
@@ -6,7 +7,7 @@ import { ArrowUpRight, Smartphone, GraduationCap, Shirt, ScrollText, Users } fro
 
 const revivalItems = [
   {
-    title: "Sulatin Mo",
+    title: "Digital Technologies",
     description: "Mobile apps, websites, and typefaces for Baybayin fonts make learning accessible to everyone.",
     imageId: "modern-revival-digital",
     link: "https://www.gmanetwork.com/news/scitech/technology/827813/this-free-app-can-translate-baybayin-in-real-time-through-your-phone-camera/story/",
