@@ -14,7 +14,7 @@ async function getHistorySummary() {
     return { summary, error: null };
   } catch (e) {
     console.error(e);
-    return { summary: null, error: "Could not load the history summary. Please check your Gemini API key." };
+    return { summary: null, error: "Could not load the history summary. This might be due to an invalid API key or a network issue." };
   }
 }
 

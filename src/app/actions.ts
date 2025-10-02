@@ -12,6 +12,7 @@ export async function getAudioForText(text: string) {
     return audioDataUri;
   } catch (error) {
     console.error("Error generating audio:", error);
+    // Return null to prevent crashing the client
     return null;
   }
 }
