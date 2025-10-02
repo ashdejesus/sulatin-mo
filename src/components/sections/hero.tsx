@@ -1,22 +1,16 @@
 import { Button } from "@/components/ui/button";
-import { PlaceHolderImages } from "@/lib/placeholder-images";
 import Image from "next/image";
 import Link from 'next/link';
 
 export function Hero() {
-  const heroImage = PlaceHolderImages.find(p => p.id === 'hero-background');
-
   return (
     <section className="relative w-full py-24 md:py-32 lg:py-40 bg-secondary/50">
-      {heroImage && (
-        <Image
-          src={heroImage.imageUrl}
-          alt={heroImage.description}
-          fill
-          className="object-cover opacity-10"
-          data-ai-hint={heroImage.imageHint}
-        />
-      )}
+      <Image
+        src="https://placehold.co/1920x1080/000000/FFFFFF/png?text=Baybayin"
+        alt="An artistic representation of Baybayin script."
+        fill
+        className="object-cover opacity-10"
+      />
       <div className="container mx-auto px-4 md:px-6 text-center relative">
         <div className="max-w-3xl mx-auto">
           <h1 className="text-4xl font-headline font-bold tracking-tight text-primary sm:text-5xl md:text-6xl lg:text-7xl">
