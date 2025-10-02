@@ -15,31 +15,31 @@
     {
       "id": "modern-revival-digital",
       "description": "A person using a smartphone with a Baybayin app.",
-      "imageUrl": "https://images.unsplash.com/photo-1730818874932-5b0f5211dc87?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxzbWFydHBob25lJTIwYXBwfGVufDB8fHx8MTc1OTM4NTQ4Nnww&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "smartphone app"
+      "imageUrl": "https://images.unsplash.com/photo-1598331666179-15a1a1b5d16c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHx0JTIwc2hpcnR8ZW58MHx8fHwxNzU5NTQwMDI5fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "t-shirt brand"
     },
     {
       "id": "modern-revival-education",
       "description": "A classroom with students learning about Filipino culture.",
-      "imageUrl": "https://images.unsplash.com/photo-1509062522246-3755977927d7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxzdHVkZW50cyUyMGNsYXNzcm9vbXxlbnwwfHx8fDE3NTkzMzMyNDR8MA&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "students classroom"
+      "imageUrl": "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxzdHVkZW50cyUyMGNsYXNzcm9vbXxlbnwwfHx8fDE3NTkzMzMyNDR8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "students learning"
     },
     {
       "id": "modern-revival-fashion",
       "description": "A person wearing a t-shirt with a Baybayin design.",
-      "imageUrl": "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxmYXNoaW9uJTIwZGVzaWdufGVufDB8fHx8MTc1OTQ3MzM3Mnww&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "fashion design"
+      "imageUrl": "https://images.unsplash.com/photo-1523381294911-8d3cead13475?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxmYXNoaW9uJTIwZGVzaWdufGVufDB8fHx8MTc1OTQ3MzM3Mnww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "clothing fashion"
     },
     {
       "id": "modern-revival-government",
       "description": "A government building in the Philippines.",
-      "imageUrl": "https://images.unsplash.com/photo-1667849921481-9e13c239ee3d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxnb3Zlcm5tZW50JTIwYnVpbGRpbmd8ZW58MHx8fHwxNzU5Mzg1NDg2fDA&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "government building"
+      "imageUrl": "https://images.unsplash.com/photo-1605275257813-a2072a3cc5c3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxwaGlsaXBwaW5lJTIwYnVpbGRpbmd8ZW58MHx8fHwxNzU5NTQwMTM5fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "philippine building"
     },
     {
       "id": "modern-revival-social",
       "description": "A collage of social media posts about Baybayin.",
-      "imageUrl": "https://images.unsplash.com/photo-1573152143286-0c422b4d2175?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxzb2NpYWwlMjBtZWRpYXxlbnwwfHx8fDE3NTkzNTc0OTZ8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxzb2NpYWwlMjBtZWRpYSUyMGljb25zfGVufDB8fHx8MTc1OTM1NzQ5Nnww&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "social media"
     }
   ]

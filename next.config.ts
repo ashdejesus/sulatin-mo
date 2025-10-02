@@ -30,7 +30,7 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: 'https',
-        hostname: 'www.wearlegazy.com',
+        hostname: 'i.imgur.com',
         port: '',
         pathname: '/**',
       }
