@@ -17,7 +17,7 @@ const revivalItems = [
     title: "Education",
     description: "Integration into Filipino and Araling Panlipunan subjects in schools helps younger generations connect with their heritage.",
     imageId: "modern-revival-education",
-    link: "https://www.rappler.com/nation/house-panel-approves-bill-promoting-baybayin-other-native-writing-systems/",
+    link: "https://youtu.be/oLwj1ZYw3vA?si=5FDq2w_KoiUO29VO",
     icon: <GraduationCap className="w-8 h-8 text-accent" />,
   },
   {
@@ -45,7 +45,7 @@ const revivalItems = [
 
 export function ModernRevival() {
   return (
-    <section id="revival" className="w-full py-20 md:py-28 lg:py-32 bg-secondary/50">
+    <section id="revival" className="w-full py-20 md:py-28 lg:py-32">
       <div className="container mx-auto px-4 md:px-6">
         <div className="mx-auto max-w-3xl text-center">
           <h2 className="text-3xl font-headline font-bold text-primary sm:text-4xl">Baybayin's Modern Revival</h2>
