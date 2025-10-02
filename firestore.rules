@@ -1,77 +1,69 @@
 /**
- * @fileoverview Firestore Security Rules for the Baybayin Translation App.
- *
- * Core Philosophy:
- * This ruleset enforces a strict user-ownership model. Each user can only
- * access their own data, and no user can access another user's data.
+ * @file Firestore Security Rules
+ * @description This ruleset enforces a strict user-ownership model, ensuring that users can only access their own data.
  *
  * Data Structure:
- * - /users/{userId}: Stores user account information, with the userId matching the Firebase auth UID.
- * - /users/{userId}/translations/{translationId}: Stores saved translations for a specific user.
+ * - /users/{userId}: Stores user account information.
+ * - /users/{userId}/translations/{translationId}: Stores user-specific saved translations.
  *
  * Key Security Decisions:
- * - Users can only list their own translations.
- * - Users cannot list other users' accounts or translations.
- * - All write operations require authentication.
+ * - Listing the /users collection is forbidden to prevent user enumeration.
+ * - All write operations are restricted to authenticated users and are owner-only.
  *
  * Denormalization for Authorization:
- * The data structure itself enforces ownership via path-based rules. The userID,
- * which comes from `request.auth.uid`, must match the document ID, ensuring
- * that users can only access their own documents and subcollections.
- *
- * Structural Segregation:
- * User accounts and their associated translations are stored in separate
- * subcollections, ensuring clear ownership and preventing accidental data leakage.
+ * - The userId is encoded directly in the path, eliminating the need for get() calls.
  */
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
     /**
-     * @description Prevents listing all user accounts. Users can only read/write their own data via their UID.
+     * @description Prevents listing the root /users collection.  User documents can only be accessed via their UID.
      * @path /users
-     * @allow (list) false
-     * @deny (list) Any user attempting to list all accounts.
-     * @principle Prevents unauthorized access to user account lists.
+     * @allow (list) Denied - Listing the entire collection is not permitted.
+     * @deny (list) Attempt to list the /users collection.
+     * @principle Prevents user enumeration and protects user privacy.
      */
     match /users {
+      allow get: if false;
       allow list: if false;
+      allow create: if false;
+      allow update: if false;
+      allow delete: if false;
     }
 
     /**
-     * @description Controls access to individual user account documents.
+     * @description Controls access to individual user documents.
      * @path /users/{userId}
-     * @allow (get) User with UID "QV2FEFGsgmNDmRWk4rIxLpEYAbC3" reading their own account.
-     * @allow (create) User with UID "QV2FEFGsgmNDmRWk4rIxLpEYAbC3" creating their own account.
-     * @allow (update) User with UID "QV2FEFGsgmNDmRWk4rIxLpEYAbC3" updating their own account.
-     * @allow (delete) User with UID "QV2FEFGsgmNDmRWk4rIxLpEYAbC3" deleting their own account.
-     * @deny (get) User with UID "OTHER_UID" attempting to read user "QV2FEFGsgmNDmRWk4rIxLpEYAbC3"'s account.
-     * @deny (create) Unauthenticated user attempting to create a user account.
-     * @deny (update) User with UID "OTHER_UID" attempting to update user "QV2FEFGsgmNDmRWk4rIxLpEYAbC3"'s account.
-     * @deny (delete) User with UID "OTHER_UID" attempting to delete user "QV2FEFGsgmNDmRWk4rIxLpEYAbC3"'s account.
-     * @principle Enforces document ownership for all operations.
+     * @allow (create) User with UID 'user123' can create their own document at /users/user123.
+     * @allow (get) User with UID 'user123' can get their own document at /users/user123.
+     * @allow (update) User with UID 'user123' can update their own document at /users/user123.
+     * @allow (delete) User with UID 'user123' can delete their own document at /users/user123.
+     * @deny (create) User with UID 'user456' cannot create a document at /users/user123.
+     * @deny (update) User with UID 'user456' cannot update the document at /users/user123.
+     * @deny (delete) User with UID 'user456' cannot delete the document at /users/user123.
+     * @principle Enforces document ownership, ensuring users can only manage their own data.
      */
     match /users/{userId} {
       allow get: if isOwner(userId);
+      allow list: if false;
       allow create: if isSignedIn() && isSelfCreation(userId);
-      allow update: if isExistingOwner(userId) && isUserIdNotChanged(userId);
+      allow update: if isExistingOwner(userId);
       allow delete: if isExistingOwner(userId);
     }
 
     /**
      * @description Controls access to a user's saved translations.
      * @path /users/{userId}/translations/{translationId}
-     * @allow (get) User with UID "QV2FEFGsgmNDmRWk4rIxLpEYAbC3" reading their own translation.
-     * @allow (list) User with UID "QV2FEFGsgmNDmRWk4rIxLpEYAbC3" listing their own translations.
-     * @allow (create) User with UID "QV2FEFGsgmNDmRWk4rIxLpEYAbC3" creating a translation in their own collection.
-     * @allow (update) User with UID "QV2FEFGsgmNDmRWk4rIxLpEYAbC3" updating their own translation.
-     * @allow (delete) User with UID "QV2FEFGsgmNDmRWk4rIxLpEYAbC3" deleting their own translation.
-     * @deny (get) User with UID "OTHER_UID" attempting to read user "QV2FEFGsgmNDmRWk4rIxLpEYAbC3"'s translation.
-     * @deny (list) User with UID "OTHER_UID" attempting to list user "QV2FEFGsgmNDmRWk4rIxLpEYAbC3"'s translations.
-     * @deny (create) Unauthenticated user attempting to create a translation.
-     * @deny (update) User with UID "OTHER_UID" attempting to update user "QV2FEFGsgmNDmRWk4rIxLpEYAbC3"'s translation.
-     * @deny (delete) User with UID "OTHER_UID" attempting to delete user "QV2FEFGsgmNDmRWk4rIxLpEYAbC3"'s translation.
-     * @principle Restricts access to a user's own data tree.
+     * @allow (create) User with UID 'user123' can create a translation under /users/user123/translations/translation1.
+     * @allow (get) User with UID 'user123' can read a translation under /users/user123/translations/translation1.
+     * @allow (update) User with UID 'user123' can update a translation under /users/user123/translations/translation1.
+     * @allow (delete) User with UID 'user123' can delete a translation under /users/user123/translations/translation1.
+     * @deny (create) User with UID 'user456' cannot create a translation under /users/user123/translations/translation1.
+     * @deny (get) User with UID 'user456' cannot read a translation under /users/user123/translations/translation1.
+     * @deny (update) User with UID 'user456' cannot update a translation under /users/user123/translations/translation1.
+     * @deny (delete) User with UID 'user456' cannot delete a translation under /users/user123/translations/translation1.
+     * @principle Enforces user-specific data isolation using path-based rules.
      */
     match /users/{userId}/translations/{translationId} {
       allow get: if isOwner(userId);
@@ -80,51 +72,44 @@ service cloud.firestore {
       allow update: if isExistingOwner(userId);
       allow delete: if isExistingOwner(userId);
     }
-  }
 
-  // ---- Helper functions ----
+    //----------------------------------------------------------------------------------------------
+    // Helper functions
+    //----------------------------------------------------------------------------------------------
 
-  /**
-   * @description Checks if the user is signed in.
-   * @return {boolean} True if the user is signed in, false otherwise.
-   */
-  function isSignedIn() {
-    return request.auth != null;
-  }
+    /**
+     * @description Checks if the user is signed in.
+     * @return True if the user is authenticated; otherwise, false.
+     */
+    function isSignedIn() {
+      return request.auth != null;
+    }
 
-  /**
-   * @description Checks if the requesting user is the owner of the resource.
-   * @param {string} userId The user ID to check against.
-   * @return {boolean} True if the user is the owner, false otherwise.
-   */
-  function isOwner(userId) {
-    return request.auth.uid == userId;
-  }
+    /**
+     * @description Checks if the request is made by the owner of the resource.
+     * @param {string} userId - The user ID to compare against the request's authentication UID.
+     * @return True if the request is authenticated and the user ID matches; otherwise, false.
+     */
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
 
-  /**
-   * @description Checks if the requesting user is the owner of the resource and that the resource exists.
-   * @param {string} userId The user ID to check against.
-   * @return {boolean} True if the user is the owner and the resource exists, false otherwise.
-   */
-  function isExistingOwner(userId) {
-    return isOwner(userId) && resource != null;
-  }
+    /**
+     * @description Checks if the request is made by the owner of the resource and the resource exists.
+     * @param {string} userId - The user ID to compare against the request's authentication UID.
+     * @return True if the request is authenticated, the user ID matches, and the resource exists; otherwise, false.
+     */
+    function isExistingOwner(userId) {
+      return isOwner(userId) && resource != null;
+    }
 
-  /**
-   * @description Checks if the user is creating their own user document.
-   * @param {string} userId The user ID to check against.
-   * @return {boolean} True if the user is creating their own document, false otherwise.
-   */
-  function isSelfCreation(userId) {
-    return isSignedIn() && request.auth.uid == userId;
-  }
-
-  /**
-   * @description Check that the userId is not changed when updating the user profile.
-   * @param {string} userId The user ID to check against.
-   * @return {boolean} True if the userId is not changed, false otherwise.
-   */
-  function isUserIdNotChanged(userId) {
-      return resource.data.id == userId;
+    /**
+     * @description Checks if the user is creating their own user document.
+     * @param {string} userId - The user ID to compare against the request's authentication UID.
+     * @return True if the request is authenticated and the user ID matches; otherwise, false.
+     */
+    function isSelfCreation(userId) {
+        return isSignedIn() && request.auth.uid == userId;
+    }
   }
 }
