@@ -20,6 +20,7 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 
 const navLinks = [
+  { href: "/", label: "Home" },
   { href: "/converter", label: "Converter" },
   { href: "/guide", label: "Character Guide" },
   { href: "/quiz", label: "Quiz" },
