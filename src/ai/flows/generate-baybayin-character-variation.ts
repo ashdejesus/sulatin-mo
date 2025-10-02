@@ -54,6 +54,9 @@ const generateBaybayinCharacterVariationFlow = ai.defineFlow(
     outputSchema: GenerateBaybayinCharacterVariationOutputSchema,
   },
   async input => {
+    if (!process.env.GEMINI_API_KEY || process.env.GEMINI_API_KEY === 'your-api-key-here') {
+      throw new Error('API key not configured.');
+    }
     const {output} = await prompt(input);
     return output!;
   }
