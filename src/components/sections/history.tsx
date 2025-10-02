@@ -24,9 +24,9 @@ export async function History() {
         </div>
         <div className="mt-12">
           <Card className="shadow-lg border-border/60 overflow-hidden">
-            <div className="grid md:grid-cols-5">
+            <div className="grid md:grid-cols-2">
               {historyImage && (
-                <div className="md:col-span-2 relative min-h-[250px] md:min-h-0">
+                <div className="md:col-span-1 relative min-h-[300px] md:min-h-0">
                   <Image
                     src={historyImage.imageUrl}
                     alt={historyImage.description}
@@ -36,7 +36,7 @@ export async function History() {
                   />
                 </div>
               )}
-              <div className="md:col-span-3">
+              <div className="md:col-span-1">
                 <CardContent className="p-8 md:p-10">
                     <div className="prose prose-lg max-w-none text-foreground/90 prose-headings:font-headline prose-headings:text-primary">
                       {historySummary.split('\n\n').map((paragraph, index) => (
