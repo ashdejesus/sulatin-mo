@@ -1,27 +1,42 @@
+
 "use client";
 
+import { useState } from "react";
 import { useUser, useFirestore, useCollection, useMemoFirebase } from "@/firebase";
-import { collection, query, orderBy, limit } from "firebase/firestore";
+import { collection, query, orderBy, limit, doc } from "firebase/firestore";
+import { deleteDocumentNonBlocking } from "@/firebase/non-blocking-updates";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../ui/card";
 import { Skeleton } from "../ui/skeleton";
 import { Button } from "../ui/button";
-import { Copy } from "lucide-react";
+import { Copy, Trash2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Alert, AlertDescription, AlertTitle } from "../ui/alert";
 import { AlertCircle } from "lucide-react";
 import Link from "next/link";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
 
 export function SavedTranslations() {
   const { user, isUserLoading } = useUser();
   const firestore = useFirestore();
   const { toast } = useToast();
+  const [itemToDelete, setItemToDelete] = useState<string | null>(null);
 
   const translationsQuery = useMemoFirebase(() => {
     if (!user || !firestore) return null;
     return query(
       collection(firestore, 'users', user.uid, 'translations'),
       orderBy('createdAt', 'desc'),
-      limit(5)
+      limit(20) // Increased limit to show more items
     );
   }, [user, firestore]);
 
@@ -34,13 +49,15 @@ export function SavedTranslations() {
     });
   };
 
-  if (isUserLoading) {
-    return null;
-  }
-
-  if (!user) {
-    return null;
-  }
+  const handleDeleteTranslation = (translationId: string) => {
+    if (!user || !firestore) return;
+    const docRef = doc(firestore, 'users', user.uid, 'translations', translationId);
+    deleteDocumentNonBlocking(docRef);
+    toast({
+      title: "Translation Removed",
+      description: "The translation has been removed from your collection.",
+    });
+  };
 
   return (
     <section id="saved" className="w-full py-20 md:py-28 lg:py-32 bg-secondary/50">
@@ -55,7 +72,7 @@ export function SavedTranslations() {
           <Card>
             <CardHeader>
               <CardTitle>My Collection</CardTitle>
-              <CardDescription>Click to copy any of your saved items.</CardDescription>
+              <CardDescription>Click to copy or remove your saved items.</CardDescription>
             </CardHeader>
             <CardContent>
               {isLoading && (
@@ -66,7 +83,10 @@ export function SavedTranslations() {
                         <Skeleton className="h-4 w-3/4" />
                         <Skeleton className="h-6 w-1/2" />
                       </div>
-                      <Skeleton className="h-10 w-10" />
+                      <div className="flex gap-2">
+                        <Skeleton className="h-10 w-10" />
+                        <Skeleton className="h-10 w-10" />
+                      </div>
                     </div>
                   ))}
                 </div>
@@ -88,9 +108,34 @@ export function SavedTranslations() {
                         <p className="text-sm text-muted-foreground">{item.tagalog}</p>
                         <p className="text-2xl font-baybayin text-primary">{item.baybayin}</p>
                       </div>
-                      <Button variant="ghost" size="icon" onClick={() => handleCopyToClipboard(item.baybayin)}>
-                        <Copy className="h-5 w-5 text-muted-foreground" />
-                      </Button>
+                      <div className="flex items-center">
+                        <Button variant="ghost" size="icon" onClick={() => handleCopyToClipboard(item.baybayin)} aria-label="Copy translation">
+                          <Copy className="h-5 w-5 text-muted-foreground" />
+                        </Button>
+
+                        <AlertDialog>
+                          <AlertDialogTrigger asChild>
+                            <Button variant="ghost" size="icon" aria-label="Remove translation">
+                              <Trash2 className="h-5 w-5 text-muted-foreground hover:text-destructive" />
+                            </Button>
+                          </AlertDialogTrigger>
+                          <AlertDialogContent>
+                            <AlertDialogHeader>
+                              <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                              <AlertDialogDescription>
+                                This action cannot be undone. This will permanently delete this
+                                translation from your collection.
+                              </AlertDialogDescription>
+                            </AlertDialogHeader>
+                            <AlertDialogFooter>
+                              <AlertDialogCancel>Cancel</AlertDialogCancel>
+                              <AlertDialogAction onClick={() => handleDeleteTranslation(item.id)}>
+                                Continue
+                              </AlertDialogAction>
+                            </AlertDialogFooter>
+                          </AlertDialogContent>
+                        </AlertDialog>
+                      </div>
                     </div>
                   ))}
                 </div>
