@@ -1,7 +1,6 @@
 import { Header } from '@/components/layout/header';
 import { Footer } from '@/components/layout/footer';
 import { Hero } from '@/components/sections/hero';
-import { Converter } from '@/components/sections/converter';
 import { CharacterGuide } from '@/components/sections/character-guide';
 import { History } from '@/components/sections/history';
 import { ModernRevival } from '@/components/sections/modern-revival';
@@ -13,7 +12,6 @@ export default function Home() {
       <Header />
       <main className="flex-grow">
         <Hero />
-        <Converter />
         <SavedTranslations />
         <CharacterGuide />
         <History />
