@@ -1,6 +1,7 @@
 "use client";
 
-import { useFormState, useFormStatus } from "react-dom";
+import { useActionState } from "react";
+import { useFormStatus } from "react-dom";
 import {
   DialogContent,
   DialogHeader,
@@ -26,7 +27,7 @@ function SubmitButton() {
 
 export function CharacterDetail({ character }: { character: BaybayinCharacter | null }) {
   const initialState = { errors: null, variation: null, explanation: null };
-  const [state, dispatch] = useFormState(getBaybayinVariation, initialState);
+  const [state, dispatch] = useActionState(getBaybayinVariation, initialState);
 
   if (!character) return null;
 
