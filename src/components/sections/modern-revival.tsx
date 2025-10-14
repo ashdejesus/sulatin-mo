@@ -17,7 +17,7 @@ const revivalItems = [
     title: "Education",
     description: "Integration into Filipino and Araling Panlipunan subjects in schools helps younger generations connect with their heritage.",
     imageId: "modern-revival-education",
-    link: "https://youtu.be/oLwj1ZYw3vA?si=5FDq2w_KoiUO29VO",
+    link: "/education",
     icon: <GraduationCap className="w-8 h-8 text-accent" />,
   },
   {
@@ -72,7 +72,7 @@ export function ModernRevival() {
                   <p className="text-muted-foreground">{item.description}</p>
                 </CardContent>
                 <div className="p-6 pt-0">
-                  <Link href={item.link} target="_blank" rel="noopener noreferrer" className="inline-flex items-center text-sm font-semibold text-accent hover:text-accent/80">
+                  <Link href={item.link} target={item.link.startsWith('http') ? '_blank' : '_self'} rel="noopener noreferrer" className="inline-flex items-center text-sm font-semibold text-accent hover:text-accent/80">
                     Learn More <ArrowUpRight className="ml-1 h-4 w-4" />
                   </Link>
                 </div>
