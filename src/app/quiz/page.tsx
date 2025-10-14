@@ -150,7 +150,7 @@ export default function QuizPage() {
                         </div>
                       </div>
                       <div className="flex flex-col items-center space-y-4">
-                        <p className="text-lg font-semibold">What is the Roman equivalent of this character?</p>
+                        <p className="text-lg font-semibold">What is this character?</p>
                         <div className="font-baybayin text-8xl text-primary p-8 bg-muted/50 rounded-lg">
                           {currentQuestion.character.char}
                         </div>
