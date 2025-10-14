@@ -30,19 +30,24 @@ const learningMaterials = [
 
 const videoLessons = [
     {
-        title: "Learn Baybayin in 5 Minutes",
-        description: "A quick and easy introduction to the basics of the script.",
-        embedUrl: "https://www.youtube.com/embed/g9y2i3-3k_A"
+        title: "Baybayin 101",
+        description: "From Marmade PH: A great starting point for beginners.",
+        embedUrl: "https://www.youtube.com/embed/ddghRtW9LpE"
     },
     {
-        title: "Baybayin Writing Tutorial",
-        description: "A step-by-step guide on how to write the characters.",
-        embedUrl: "https://www.youtube.com/embed/0hV593g2K4s"
+        title: "3 Easy Steps to Learn Baybayin",
+        description: "From Tales of Demi: A tutorial by ANAKNIRIZAL.",
+        embedUrl: "https://www.youtube.com/embed/oLwj1ZYw3vA"
     },
     {
-        title: "The History of Baybayin",
-        description: "A deeper dive into the origins and cultural significance of Baybayin.",
-        embedUrl: "https://www.youtube.com/embed/b3g514m4v2A"
+        title: "The Simplicity of the Original Filipino Script",
+        description: "From Samuel Heinrich: A clear explanation of the script's structure.",
+        embedUrl: "https://www.youtube.com/embed/NE7mwkPdV04"
+    },
+    {
+        title: "Introduction to Baybayin in 2 1/2 Minutes",
+        description: "From Miguel Lorenzo Singian: A very quick overview.",
+        embedUrl: "https://www.youtube.com/embed/icg7T17HfB8"
     }
 ];
 
