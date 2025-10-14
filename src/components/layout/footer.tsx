@@ -1,5 +1,5 @@
 
-import { Facebook, Instagram, Twitter } from "lucide-react";
+import { Facebook, Instagram } from "lucide-react";
 import Link from "next/link";
 import { Logo } from "../ui/logo";
 
@@ -17,14 +17,11 @@ export function Footer() {
           <div className="flex flex-col items-center md:items-end">
             <p className="font-semibold text-primary mb-2">Follow Us</p>
             <div className="flex items-center space-x-4">
-              <Link href="#" aria-label="Facebook" className="text-muted-foreground hover:text-primary transition-colors">
+              <Link href="https://www.facebook.com/profile.php?id=61582387736504" target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="text-muted-foreground hover:text-primary transition-colors">
                 <Facebook className="h-6 w-6" />
               </Link>
-              <Link href="#" aria-label="Instagram" className="text-muted-foreground hover:text-primary transition-colors">
+              <Link href="https://instagram.com/sulatinmo" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="text-muted-foreground hover:text-primary transition-colors">
                 <Instagram className="h-6 w-6" />
-              </Link>
-              <Link href="#" aria-label="Twitter" className="text-muted-foreground hover:text-primary transition-colors">
-                <Twitter className="h-6 w-6" />
               </Link>
             </div>
           </div>
