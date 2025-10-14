@@ -1,7 +1,7 @@
 // This is a simplified transliteration engine for educational purposes.
 // It does not cover all the complex rules and exceptions of Baybayin.
 
-import { baybayinCharacters, kudlit } from "./baybayin-data";
+import { kudlit } from "./baybayin-data";
 
 const romanToBaybayinMap: Record<string, string> = {
   'a': 'ᜀ', 'e': 'ᜁ', 'i': 'ᜁ', 'o': 'ᜂ', 'u': 'ᜂ',
@@ -69,7 +69,12 @@ export function tagalogToBaybayin(text: string): string {
     // Handle spaces and punctuation
     if (currentChar === ' ') {
       baybayinScript += ' ';
-    } else {
+    } else if (currentChar === ',') {
+      baybayinScript += '᜵'; // Use Baybayin comma
+    } else if (currentChar === '.') {
+      baybayinScript += '᜶'; // Use Baybayin period
+    }
+    else {
       baybayinScript += currentChar;
     }
     i += 1;
