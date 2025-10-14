@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { BookOpen, History, Edit, Youtube } from "lucide-react";
+import { Separator } from "@/components/ui/separator";
 
 const learningMaterials = [
     {
@@ -21,10 +22,10 @@ const learningMaterials = [
     },
     {
         title: "Writing Rules & Nuances",
-        description: "Understand the rules of transliteration, including the virama (kudlit). (Coming Soon!)",
-        link: "#",
-        icon: <Edit className="h-8 w-8 text-muted-foreground" />,
-        disabled: true
+        description: "Understand the rules of transliteration, including the virama (kudlit).",
+        link: "#rules",
+        icon: <Edit className="h-8 w-8 text-accent" />,
+        disabled: false
     }
 ];
 
@@ -87,7 +88,72 @@ export default function EducationPage() {
           </div>
         </section>
 
-        <section className="w-full py-20 md:py-28 lg:py-32 bg-secondary/50">
+        <section id="rules" className="w-full py-20 md:py-28 lg:py-32 bg-secondary/50">
+            <div className="container mx-auto px-4 md:px-6">
+                <div className="mx-auto max-w-3xl text-center">
+                    <div className="flex justify-center items-center gap-2 mb-2">
+                        <Edit className="h-10 w-10 text-accent" />
+                        <h2 className="text-3xl font-headline font-bold text-primary sm:text-4xl">Writing Rules &amp; Nuances</h2>
+                    </div>
+                    <p className="mt-4 text-muted-foreground">
+                        Understand how to change vowel sounds and write modern words with the kudlit.
+                    </p>
+                </div>
+                <div className="mt-12 max-w-4xl mx-auto space-y-12">
+                    <Card>
+                        <CardHeader>
+                            <CardTitle>The Kudlit: Changing Vowel Sounds</CardTitle>
+                            <CardDescription>Each Baybayin consonant has a default 'a' sound (e.g., 'ba', 'ka'). The kudlit is a mark that changes this vowel sound.</CardDescription>
+                        </CardHeader>
+                        <CardContent className="space-y-6">
+                            <div className="flex flex-col md:flex-row items-center justify-around text-center gap-6">
+                                <div className="space-y-2">
+                                    <p className="font-semibold">Default '-a' sound</p>
+                                    <div className="font-baybayin text-7xl text-primary p-4 bg-background rounded-lg">ᜊ</div>
+                                    <p className="text-2xl font-bold">Ba</p>
+                                </div>
+                                <div className="space-y-2">
+                                    <p className="font-semibold">Kudlit above for '-e' or '-i'</p>
+                                    <div className="font-baybayin text-7xl text-primary p-4 bg-background rounded-lg">ᜊᜒ</div>
+                                    <p className="text-2xl font-bold">Be / Bi</p>
+                                </div>
+                                <div className="space-y-2">
+                                    <p className="font-semibold">Kudlit below for '-o' or '-u'</p>
+                                    <div className="font-baybayin text-7xl text-primary p-4 bg-background rounded-lg">ᜊᜓ</div>
+                                    <p className="text-2xl font-bold">Bo / Bu</p>
+                                </div>
+                            </div>
+                        </CardContent>
+                    </Card>
+
+                    <Card>
+                        <CardHeader>
+                            <CardTitle>The Virama (Pamatay)</CardTitle>
+                            <CardDescription>To write consonants that are not followed by a vowel (like in modern Filipino words), a special kudlit called a virama is used to cancel the default 'a' sound.</CardDescription>
+                        </CardHeader>
+                        <CardContent className="space-y-6">
+                            <div className="flex flex-col md:flex-row items-center justify-around text-center gap-6">
+                                <div className="space-y-2">
+                                    <p className="font-semibold">B + Virama</p>
+                                    <div className="font-baybayin text-7xl text-primary p-4 bg-background rounded-lg">ᜊ᜔</div>
+                                    <p className="text-2xl font-bold">B</p>
+                                </div>
+                                 <div className="space-y-2">
+                                    <p className="font-semibold">Example: Bundok (Mountain)</p>
+                                    <div className="font-baybayin text-5xl md:text-7xl text-primary p-4 bg-background rounded-lg">ᜊᜓᜈ᜔ᜇᜓᜃ᜔</div>
+                                    <p className="text-lg font-mono">bu-n-do-k</p>
+                                </div>
+                            </div>
+                            <div className="mt-4 text-center text-sm text-muted-foreground">
+                                Note: The virama (cross-shaped kudlit) was introduced by the Spanish. Traditional Baybayin did not have a way to write standalone consonants.
+                            </div>
+                        </CardContent>
+                    </Card>
+                </div>
+            </div>
+        </section>
+
+        <section className="w-full py-20 md:py-28 lg:py-32">
             <div className="container mx-auto px-4 md:px-6">
                  <div className="mx-auto max-w-3xl text-center">
                     <div className="flex justify-center items-center gap-2 mb-2">
