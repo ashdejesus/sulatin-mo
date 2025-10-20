@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState } from "react";
@@ -179,6 +180,11 @@ export function AuthForm({ type }: { type: AuthFormType }) {
               required
               placeholder="••••••••"
             />
+            {type === 'signup' && (
+              <p className="text-xs text-muted-foreground">
+                Password must be at least 6 characters long.
+              </p>
+            )}
           </div>
           <Button type="submit" className="w-full" disabled={isLoading}>
             {isLoading ? "Processing..." : (type === "login" ? "Login" : "Sign Up")}
